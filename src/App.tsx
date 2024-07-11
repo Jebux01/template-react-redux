@@ -11,8 +11,8 @@ import "./App.css";
 import { history, PrivateRoute } from "./utils";
 import Home from "./components/home";
 import Login from "./components/login";
-import ResponsiveAppBar from "./components/nav";
-
+import ResponsiveAppBar, { DrawerHeader } from "./components/nav";
+import Box from "@mui/material/Box";
 
 function App() {
   history.location = useLocation();
@@ -20,18 +20,20 @@ function App() {
 
   return (
     <div className="app-container bg-light">
-      <ResponsiveAppBar />
-      <div className="container pt-4 pb-4">
-        <Routes>
-          {/* private */}
-          <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Home />} />
-          </Route>
-          {/* public */}
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
+      <Box sx={{ display: "flex" }}>
+        <ResponsiveAppBar />
+        <Box component="main" sx={{ flexGrow: 1, p: 2, marginTop: '30px' }}>
+          <Routes>
+            {/* private */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<Home />} />
+            </Route>
+            {/* public */}
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Box>
+      </Box>
     </div>
   );
 }
