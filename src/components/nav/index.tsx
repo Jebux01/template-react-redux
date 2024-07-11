@@ -8,7 +8,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store";
-import { Box } from "@mui/material";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -17,15 +16,20 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import ArticleIcon from "@mui/icons-material/Article";
+import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
+import TransformIcon from "@mui/icons-material/Transform";
 import MuiDrawer from "@mui/material/Drawer";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import { AppBarProps } from "../../models/navbar";
 import CssBaseline from "@mui/material/CssBaseline";
 
-const pages = ["Transacciones", "Catalogos", "Traspasos"];
+const pages = [
+  { title: "Transacciones", icon: ArticleIcon },
+  { title: "Catalogos", icon: SortByAlphaIcon },
+  { title: "Traspasos", icon: TransformIcon },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const drawerWidth = 240;
@@ -68,7 +72,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const DrawerHeader = styled("div")(({ theme }) => ({
+export const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
@@ -132,7 +136,7 @@ function ResponsiveAppBar() {
   if (!auth) return null;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <div>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -146,9 +150,7 @@ function ResponsiveAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
-          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
           <div>
             <IconButton
               size="large"
@@ -197,8 +199,8 @@ function ResponsiveAppBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {pages.map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+          {pages.map((item, index) => (
+            <ListItem key={item.title} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -213,15 +215,18 @@ function ResponsiveAppBar() {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <item.icon />
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText
+                  primary={item.title}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
       </Drawer>
-    </Box>
+    </div>
   );
 }
 export default ResponsiveAppBar;
